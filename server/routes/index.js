@@ -1,56 +1,36 @@
-var express = require('express');
-var router = express.Router();
-var mysql = require('mysql');
+const express = require('express');
+const router = express.Router();
+const mysql = require("mysql");
 
-
-const connection = mysql.createConnection({
+const db = mysql.createPool({
     host:'localhost',
     // port:3306,
     user:'root',
     password:'',
     database:'todolist'
 });
-connection.connect();
+router.post('/dbtest', function(req, res)  {
 
-router.get('/',(req,res) => {
-    console.log('http://localhost:3001/api/');
-    res.send({title: 'hello react!'});
+    const title = req.body.title;
+    const body = req.body.body;
+    const sqlInsert = "INSERT INTO article (regDate, title, body) VALUES (NOW(), ?, ?);"
+    db.query(sqlInsert, [title, body], (err, result)=> {
+        res.send("hello worlds");
+        console.log(err);
+    });
 });
-router.post("/idplz", (req,res)=>{
-    const serverid = req.body.plzid;
-    console.log(serverid);
-    const sendText = {
-        text : "열심히 코딩 중",
-    };
-    res.send(sendText);
-    
-});
-router.post("/callbody", (req,res)=>{
-    connection.query("SELECT * FROM article",
-    function(err,rows,fields){
-        if(err){
-            console.log("불러오기 실패");
-        }else{
-            console.log("불러오기 성공");
-            console.log(rows[0]['id']);
-            res.send(rows[0]);
-        }
-    })
-});
-router.post('/text', function(req, res) {
-    const text1 = req.body.inText;
-    console.log(text1);
+
+router.get("/employees", (req, res) => {
+    db.query("SELECT * FROM article", (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(result);
+      }
+    });
   });
-router.get('/project/select', function(req,res){
-    
-    connection.query('SELECT * from article', (err, rows,fields) => {
-        if (err) {
-            console.log("데이터 가져오기 실패");
-        } else {
-            res.send(rows);
-        }
-    })
+
+router.get('/asd', (req, res) => {
+    res.send("asdasdasd");
 });
-
-
 module.exports = router;
