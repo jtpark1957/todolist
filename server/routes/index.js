@@ -16,7 +16,7 @@ router.post('/dbtest', function(req, res)  {
     const sqlInsert = "INSERT INTO article (regDate, title, body) VALUES (NOW(), ?, ?);"
     db.query(sqlInsert, [title, body], (err, result)=> {
         res.send("hello worlds");
-        console.log(err);
+        console.log(err+ "글이 작성되었습니다");
     });
 });
 

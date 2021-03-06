@@ -7,9 +7,13 @@ class write extends Component {
     };
     submitReview = () => {
         const { title, body } = this.state;
+        if(title === "" || body=== "") {
+            alert("빈칸이 있습니다");
+            return false;
+        }
         Axios.post('http://localhost:3001/api/dbtest', {
             title: title,
-            body: body
+            body:body
         }).then(() => {
             alert("succes");
         });

@@ -6,7 +6,8 @@ function Main() {
 
     <div>
       <Link to="/"><p>Main</p></Link>
-      <Link to="/article">article</Link>
+      <Link to="/article"><p>article</p></Link>
+      <Link to="/write">write</Link>
       
 
     </div>
